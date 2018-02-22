@@ -7,3 +7,5 @@
 
 <body>
   <p>THANK YOU!</p>
+  <p> Here is a list of all e-mails saved to site's database: </p>
+  {% for p in persons %}{{p.email}}<br>{% endfor %}

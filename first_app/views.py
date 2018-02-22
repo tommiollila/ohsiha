@@ -16,4 +16,5 @@ def index(request):
     return render(request, "first_app/index.html", {'form': form})
 
 def your_email(request):
-    return render(request, "first_app/your_email.html")
+    persons = Person.objects.all()
+    return render(request, "first_app/your_email.html", {'persons': persons})
