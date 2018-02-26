@@ -18,3 +18,6 @@ def index(request):
 def your_email(request):
     persons = Person.objects.all()
     return render(request, "first_app/your_email.html", {'persons': persons})
+
+def jquery(request):
+    return render(request, "first_app/jQuery.html")

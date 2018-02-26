@@ -1,0 +1,23 @@
+{% load staticfiles%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DEMO</title>
+</head>
+
+<body>
+  <a href="http://jquery.com">JQUERY</a>
+  <script type="text/javascript" src="{% static 'first_app/jquery-3.2.1.min.js' %}"></script>
+  <script>
+    $( document ).ready(function() {
+      $ ("a").click(function(event) {
+        event.preventDefault()
+        alert("Hello");
+      });
+    });
+  </script>
+  Tähän tulee <p> p-elementti </p><p> toinen p </p> jonka jälkeen <div> div-elementti </div> <div> toinen div </div> ja vielä <span> span-elementti </span> <span> ja toinen span</span>
+</body>
+</html>

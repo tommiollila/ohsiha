@@ -20,5 +20,6 @@ from first_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index),
-    path('your-email/', views.your_email)
+    path('your-email/', views.your_email),
+    path('jquery/', views.jquery)
 ]
