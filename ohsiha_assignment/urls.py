@@ -17,12 +17,16 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from first_app import views
+from ohsiha_assignment import views as ohsiha_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', ohsiha_views.login_redirect, name='login_redirect'),
+    path('admin/', admin.site.urls, name='admin'),
     path('index/', views.index, name='index'),
     path('your-email/', views.your_email),
     path('jquery/', views.jquery),
     path('base/', views.base),
-    path('login/', auth_views.LoginView.as_view(template_name='first_app/login.html'), name='login')
+    path('login/', auth_views.LoginView.as_view(template_name='first_app/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='first_app/logout.html'), name='logout'),
+    path('register/', views.register, name='register')
 ]
