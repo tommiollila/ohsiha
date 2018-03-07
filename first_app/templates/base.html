@@ -5,9 +5,17 @@
   {% block title %}
   <title>Testing</title>
   {% endblock %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
   {% block content %}
-  <p>Sisältöä</p>
+  <div class="jumbotron">
+    <p>Sisältöä</p>
+    <button class="btn btn-primary" type="button" name="button">NAPPI</button>
+  </div>
   {% endblock %}
+
+  <p> Tämä on base.html </p>
+</body>

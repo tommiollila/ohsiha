@@ -23,5 +23,6 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('your-email/', views.your_email),
     path('jquery/', views.jquery),
+    path('base/', views.base),
     path('login/', auth_views.LoginView.as_view(template_name='first_app/login.html'), name='login')
 ]

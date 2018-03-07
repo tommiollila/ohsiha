@@ -21,3 +21,6 @@ def your_email(request):
 
 def jquery(request):
     return render(request, "first_app/jQuery.html")
+
+def base(request):
+    return render(request, "base.html")
