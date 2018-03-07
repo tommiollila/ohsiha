@@ -30,8 +30,8 @@ def register(request):
             return redirect('/login')
     else:
         form = RegisterationForm()
-        args = {'form': form}
-        return render(request, "first_app/register.html", args)
+    args = {'form': form}
+    return render(request, "first_app/register.html", args)
 
 def base(request):
     return render(request, "base.html")
