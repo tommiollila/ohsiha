@@ -23,5 +23,5 @@ urlpatterns = [
     path('', ohsiha_views.login_redirect, name='login_redirect'),
     path('admin/', admin.site.urls, name='admin'),
     path('login/', auth_views.LoginView.as_view(template_name='first_app/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='first_app/logout.html'), name='logout'),
+    path('logout/', auth_views.logout, name='logout'),
 ]
