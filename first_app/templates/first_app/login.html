@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
-
 {% block title %}
+{% if user.is_authenticated %}
+<title>Logged in</title>
+{% else %}
 <title>Login</title>
+{% endif %}
 {% endblock %}
-
 {% block content %}
   <h2>Login</h2>
   <form method="post">

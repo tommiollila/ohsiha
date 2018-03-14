@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import EmailForm, RegisterationForm
+from django.contrib.auth.forms import UserCreationForm
 from .models import Person
 
 def index(request):
@@ -35,3 +36,7 @@ def register(request):
 
 def base(request):
     return render(request, "base.html")
+
+def profile(request):
+    args = {'user': request.user}
+    return render(request, 'first_app/profile.html', args)
