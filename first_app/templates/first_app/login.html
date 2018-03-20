@@ -7,10 +7,14 @@
 {% endif %}
 {% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
+  <h4>You are already logged in!</h4>
+{% else %}
   <h2>Login</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Login</button>
   </form>
+{% endif %}
 {% endblock %}
