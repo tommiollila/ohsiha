@@ -79,10 +79,17 @@ WSGI_APPLICATION = 'ohsiha_assignment.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+#This is default, that worked just fine before postreSQL:
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+#       'ENGINE': 'django.db.backends.sqlite3',
+#       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ohsiha_assignment',
+        'USER': 'postgres',
+        'PASSWORD': 'arto',
+        'HOST': 'localhost',
+        'PORT': '',
+     }
 }
 
 
