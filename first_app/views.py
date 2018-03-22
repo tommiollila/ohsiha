@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import EmailForm, RegisterationForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import Person
-import requests
+import requests, json
 
 def index(request):
     if request.method == 'POST':
@@ -38,7 +38,11 @@ def register(request):
 def base(request):
     r = requests.get('http://trafficlights.tampere.fi/api/v1/trafficAmount')
     text = r.text
-    args = {'text': text}
+    j_obj = json.loads(text)
+    device = j_obj["results"][0]["device"]
+    args = {'text': text,
+            'results' : device
+    }
     #TrafficLightInformation.objects.create(name = 'Test1', data={
     #})
     return render(request, "first_app/home.html", args)
