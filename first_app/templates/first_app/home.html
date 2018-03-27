@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
 
 {% block title %}
   <title>Lights</title>
@@ -10,4 +12,11 @@
   <br>
   <p> {{ results }} </p>
 </div>
+
+<form action="#" method="get" id="testi">
+ <input type="submit" class="button" id="button" value="Tyhjennä taulu" name="mybtn">
+</form>
+
+<script type="text/javascript" src="{% static 'first_app/button.js' %}"></script>
+
 {% endblock %}

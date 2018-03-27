@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import EmailForm, RegisterationForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Person
+from .models import Person, TrafficLightInformationTest
 import requests, json
 
 def index(request):
@@ -36,15 +36,19 @@ def register(request):
     return render(request, "first_app/register.html", args)
 
 def base(request):
+    if(request.GET.get('mybtn')):
+        print(request.GET)
+        TrafficLightInformationTest.objects.all().delete()
+        return render(request, "base.html")
     r = requests.get('http://trafficlights.tampere.fi/api/v1/trafficAmount')
     text = r.text
     j_obj = json.loads(text)
-    device = j_obj["results"][0]["device"]
+    device_name = j_obj["results"][0]["device"]
     args = {'text': text,
-            'results' : device
+            'results' : device_name
     }
-    #TrafficLightInformation.objects.create(name = 'Test1', data={
-    #})
+    device_object = TrafficLightInformationTest(name=device_name)
+    device_object.save()
     return render(request, "first_app/home.html", args)
 
 def profile(request):
