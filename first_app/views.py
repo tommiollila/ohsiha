@@ -36,10 +36,9 @@ def register(request):
     return render(request, "first_app/register.html", args)
 
 def base(request):
-    if(request.GET.get('mybtn')):
+    if(request.POST.get('mybtn')):
         print(request.GET)
         TrafficLightInformationTest.objects.all().delete()
-        return render(request, "base.html")
     r = requests.get('http://trafficlights.tampere.fi/api/v1/trafficAmount')
     text = r.text
     j_obj = json.loads(text)

@@ -11,9 +11,12 @@
   <h2> JSON-data: </h2>
   <br>
   <p> {{ results }} </p>
+  <br>
+  <p> {{ text }} </p>
 </div>
 
-<form action="#" method="get" id="testi">
+<form action="/base/" method="post" id="testi">
+  {% csrf_token %}
  <input type="submit" class="button" id="button" value="Tyhjennä taulu" name="mybtn">
 </form>
 
