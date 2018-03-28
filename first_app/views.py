@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import EmailForm, RegisterationForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Person, TrafficLightInformationTest
+from .models import Person, TrafficLightInformationTest, TrafficLightDetectors
 import requests, json
 
 def index(request):
@@ -37,18 +37,28 @@ def register(request):
 
 def base(request):
     if(request.POST.get('mybtn')):
-        print(request.GET)
         TrafficLightInformationTest.objects.all().delete()
-    r = requests.get('http://trafficlights.tampere.fi/api/v1/trafficAmount')
-    text = r.text
-    j_obj = json.loads(text)
-    device_name = j_obj["results"][0]["device"]
-    args = {'text': text,
-            'results' : device_name
-    }
-    device_object = TrafficLightInformationTest(name=device_name)
-    device_object.save()
-    return render(request, "first_app/home.html", args)
+    if(request.GET.get('dlAPI')):
+        # Download the first JSON-file from API:
+        r = requests.get('http://trafficlights.tampere.fi/api/v1/trafficAmount')
+        text = r.text
+        j_obj = json.loads(text)
+
+        #Save all devices to database:
+        device_length = len(j_obj["results"])
+        i=0
+        while i < device_length:
+            device_name = j_obj["results"][i]["device"]
+            detector_name = j_obj["results"][i]["detector"]
+            device_object = TrafficLightDetectors(device=device_name)
+            device_object.detector = detector_name
+            device_object.save()
+            i = i + 1
+
+        #Give arguments to html-page of the devices:
+        args = {'text': text}
+        return render(request, "first_app/home.html", args)
+    return render(request, "first_app/home.html")
 
 def profile(request):
     args = {'user': request.user}

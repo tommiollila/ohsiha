@@ -21,6 +21,23 @@ class TrafficLightInformationTest(models.Model):
     def __str__(self):
         return self.name
 
+class TrafficLightDetectors(models.Model):
+    detector = models.CharField(max_length=25, default='')
+    device = models.CharField(max_length=25, default='')
+    traffic_amount = models.IntegerField(blank=True, null=True, default=None)
+    realiable_value = models.IntegerField(blank=True, null=True, default=None)
+    congestion_count = models.IntegerField(blank=True, null=True, default=None)
+    queue_length = models.IntegerField(blank=True, null=True, default=None)
+    vehicle_count = models.IntegerField(blank=True, null=True, default=None)
+    wait_time_max = models.FloatField(blank=True, null=True, default=None)
+    wait_time_avg = models.FloatField(blank=True, null=True, default=None)
+    latitude = models.FloatField(blank=True, null=True, default=None)
+    longitude = models.FloatField(blank=True, null=True, default=None)
+    street_name = models.CharField(max_length=100, blank=True, null=True, default=None)
+
+    def __str__(self):
+        return self.detector
+
 def create_profile(sender, **kwargs):
     if kwargs['created']:
         user_profile = UserProfile.objects.create(user=kwargs['instance'])
