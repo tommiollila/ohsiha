@@ -7,13 +7,24 @@
 {% endblock %}
 
 {% block content %}
-<div>
-  <h2> JSON-data: </h2>
-  <br>
-  <p> {{ results }} </p>
-  <br>
-  <p> {{ text }} </p>
-</div>
+<table id="lightTable">
+  <thead>
+    <tr>
+      <th>Device</th>
+      <th>Detector</th>
+      <th>Traffic Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for o in objects%}
+    <tr>
+      <td>{{o.device}}</td>
+      <td>{{o.detector}}</td>
+      <td>{{o.traffic_amount}}</td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
 
 <form action="/base/" method="get" id="testi">
  <input type="submit" class="button" id="button1" value="Lataa JSON-API" name="dlAPI">

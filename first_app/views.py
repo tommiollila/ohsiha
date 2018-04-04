@@ -53,7 +53,8 @@ def base(request):
             object.traffic_amount = trafficAmount
             object.save()
             i = i + 1
-        return render(request, "first_app/home.html")
+        args = {'objects': objects}
+        return render(request, "first_app/home.html", args)
 
     if(request.GET.get('dlAPI')):
         # Download the first JSON-file from API:
@@ -74,7 +75,8 @@ def base(request):
             i = i + 1
 
         #Give arguments to html-page of the devices:
-        args = {'text': text}
+        objects = TrafficLightDetectors.objects.all()
+        args = {'objects': objects}
         return render(request, "first_app/home.html", args)
     return render(request, "first_app/home.html")
 
