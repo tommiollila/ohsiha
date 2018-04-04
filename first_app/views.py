@@ -37,7 +37,24 @@ def register(request):
 
 def base(request):
     if(request.POST.get('mybtn')):
-        TrafficLightInformationTest.objects.all().delete()
+        TrafficLightDetectors.objects.all().delete()
+        print("Tyhjennetty")
+
+    if(request.GET.get('amountBtn')):
+        objects = TrafficLightDetectors.objects.all()
+        r = requests.get('http://trafficlights.tampere.fi/api/v1/trafficAmount/')
+        text = r.text
+        j_obj = json.loads(text)
+        if len(j_obj["results"]) == 0:
+            return render(request, "first_app/home.html")
+        i = 0
+        for object in objects:
+            trafficAmount = j_obj["results"][i]["trafficAmount"]
+            object.traffic_amount = trafficAmount
+            object.save()
+            i = i + 1
+        return render(request, "first_app/home.html")
+
     if(request.GET.get('dlAPI')):
         # Download the first JSON-file from API:
         r = requests.get('http://trafficlights.tampere.fi/api/v1/trafficAmount')
@@ -52,6 +69,7 @@ def base(request):
             detector_name = j_obj["results"][i]["detector"]
             device_object = TrafficLightDetectors(device=device_name)
             device_object.detector = detector_name
+            device_object.device = device_name
             device_object.save()
             i = i + 1
 

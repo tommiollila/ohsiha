@@ -16,13 +16,18 @@
 </div>
 
 <form action="/base/" method="get" id="testi">
- <input type="submit" class="button" id="button" value="Lataa JSON-API" name="dlAPI">
+ <input type="submit" class="button" id="button1" value="Lataa JSON-API" name="dlAPI">
+</form>
+
+<form action="/base/" method="get" id="testi">
+ <input type="submit" class="button2" id="button2" value="Lataa liikenteen määrä" name="amountBtn">
 </form>
 
 <form action="/base/" method="post" id="testi">
   {% csrf_token %}
- <input type="submit" class="button" id="button" value="Tyhjennä taulu" name="mybtn">
+ <input type="submit" class="button" id="button3" value="Tyhjennä taulu" name="mybtn">
 </form>
+
 
 <script type="text/javascript" src="{% static 'first_app/button.js' %}"></script>
 
