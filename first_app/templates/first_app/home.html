@@ -7,12 +7,33 @@
 {% endblock %}
 
 {% block content %}
+
+<form action="/base/" method="get" id="api">
+ <input type="submit" class="button" id="button1" value="Lataa JSON-API" name="dlAPI">
+</form>
+
+<form action="/base/" method="get" id="amount">
+ <input type="submit" class="button" id="button2" value="Lataa liikenteen määrä" name="amountBtn">
+</form>
+
+<form action="/base/" method="get" id="location">
+ <input type="submit" class="button" id="button3" value="Lataa sijainnit" name="locationsBtn">
+</form>
+
+<form action="/base/" method="post" id="empty">
+  {% csrf_token %}
+ <input type="submit" class="button" id="button4" value="Tyhjennä taulu" name="mybtn">
+</form>
+
+
 <table id="lightTable">
   <thead>
     <tr>
       <th>Device</th>
       <th>Detector</th>
       <th>Traffic Amount</th>
+      <th>X-point</th>
+      <th>Y-point</th>
     </tr>
   </thead>
   <tbody>
@@ -21,23 +42,12 @@
       <td>{{o.device}}</td>
       <td>{{o.detector}}</td>
       <td>{{o.traffic_amount}}</td>
+      <td>{{o.longitude}}</td>
+      <td>{{o.latitude}}</td>
     </tr>
     {%endfor%}
   </tbody>
 </table>
-
-<form action="/base/" method="get" id="testi">
- <input type="submit" class="button" id="button1" value="Lataa JSON-API" name="dlAPI">
-</form>
-
-<form action="/base/" method="get" id="testi">
- <input type="submit" class="button2" id="button2" value="Lataa liikenteen määrä" name="amountBtn">
-</form>
-
-<form action="/base/" method="post" id="testi">
-  {% csrf_token %}
- <input type="submit" class="button" id="button3" value="Tyhjennä taulu" name="mybtn">
-</form>
 
 
 <script type="text/javascript" src="{% static 'first_app/button.js' %}"></script>

@@ -8,5 +8,6 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('jquery/', views.jquery),
     path('profile/', views.profile, name='profile'),
-    path('profile/edit/', views.edit_profile, name='edit_profile')
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('map', views.map, name='map')
 ]

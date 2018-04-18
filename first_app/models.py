@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from datetime import date
-#from django.contrib.postgres.fields import JSONField
 
 class Person(models.Model):
     email = models.CharField(max_length=100)
@@ -15,15 +14,10 @@ class UserProfile(models.Model):
     website = models.URLField(default='')
     phone = models.IntegerField(default=0)
 
-class TrafficLightInformationTest(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-
 class TrafficLightDetectors(models.Model):
     detector = models.CharField(max_length=25, default='')
     device = models.CharField(max_length=25, default='')
+    intersection = models.CharField(max_length=25, default='')
     traffic_amount = models.IntegerField(blank=True, null=True, default=None)
     realiable_value = models.IntegerField(blank=True, null=True, default=None)
     congestion_count = models.IntegerField(blank=True, null=True, default=None)
