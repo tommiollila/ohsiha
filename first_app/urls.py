@@ -9,5 +9,6 @@ urlpatterns = [
     path('jquery/', views.jquery),
     path('profile/', views.profile, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
-    path('map', views.map, name='map')
+    path('map', views.map, name='map'),
+    path('getcoordinates', views.get_coordinates, name='get_coordinates')
 ]

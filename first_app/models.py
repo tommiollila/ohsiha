@@ -25,12 +25,20 @@ class TrafficLightDetectors(models.Model):
     vehicle_count = models.IntegerField(blank=True, null=True, default=None)
     wait_time_max = models.FloatField(blank=True, null=True, default=None)
     wait_time_avg = models.FloatField(blank=True, null=True, default=None)
-    latitude = models.FloatField(blank=True, null=True, default=None)
+    n_coordinate = models.FloatField(blank=True, null=True, default=None)
+    e_coordinate = models.FloatField(blank=True, null=True, default=None)
+    x_coo = models.CharField(max_length=25, default='')
+    y_coo = models.CharField(max_length=25, default='')
     longitude = models.FloatField(blank=True, null=True, default=None)
+    latitude = models.FloatField(blank=True, null=True, default=None)
     street_name = models.CharField(max_length=100, blank=True, null=True, default=None)
 
     def __str__(self):
         return self.detector
+
+class DegreeCoordinates(models.Model):
+    x_coo = models.CharField(max_length=25, default='')
+    y_coo = models.CharField(max_length=25, default='')
 
 def create_profile(sender, **kwargs):
     if kwargs['created']:
