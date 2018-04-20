@@ -36,6 +36,46 @@ def register(request):
     return render(request, "first_app/register.html", args)
 
 def base(request):
+
+    if(request.GET.get('statusBtn')):
+
+        print("Ladataan statukset")
+
+        objects = TrafficLightDetectors.objects.all()
+        args = {'objects': objects}
+
+        asekd_objects = TrafficLightDetectors.objects.all().exclude(latitude=None)
+        for object in asekd_objects:
+            r = requests.get('http://trafficlights.tampere.fi/api/v1/deviceState/' + object.device)
+            text = r.text
+            j_obj = json.loads(text)
+
+            length = len(j_obj["signalGroup"])
+
+            print(length)
+
+            detector_letter = object.detector[0]
+
+            upper_letter = detector_letter.upper()
+
+            letters = "abcdefghijklmnopqrstuvwxyz"
+            if detector_letter in letters:
+                i = 0
+                while i < length:
+                    if j_obj["signalGroup"][i]["name"] == upper_letter:
+                        #right_signal_group = j_obj["signalGroup"][i]
+                        j = i
+                        break
+                    i = i + 1
+                object.status = j_obj["signalGroup"][j]["status"]
+                object.save()
+                #return render(request, "first_app/home.html", args)
+
+            else:
+                pass
+
+        return render(request, "first_app/home.html", args)
+
     if(request.POST.get('mybtn')):
         TrafficLightDetectors.objects.all().delete()
 
@@ -143,7 +183,9 @@ def base(request):
         objects = TrafficLightDetectors.objects.all()
         args = {'objects': objects}
         return render(request, "first_app/home.html", args)
-    return render(request, "first_app/home.html")
+    objects = TrafficLightDetectors.objects.all()
+    args = {'objects': objects}
+    return render(request, "first_app/home.html", args)
 
 def profile(request):
     args = {'user': request.user}
@@ -164,12 +206,19 @@ def map(request):
     return render(request, "first_app/map.html")
 
 def get_coordinates(request):
-    objects = TrafficLightDetectors.objects.all().exclude(latitude=None)
+    objects = TrafficLightDetectors.objects.all().exclude(status=None)
     json_object={}
     for object in objects:
-        json_object[object.id] = {'lon': object.longitude,
-                    'lat': object.latitude,
-                    }
+        light_status = status(object.status)
+
+        wanted_status = ['green', 'yellow', 'red']
+
+        if light_status in wanted_status:
+        
+            json_object[object.id] = {'lon': object.longitude,
+                        'lat': object.latitude,
+                        'stat': light_status
+                        }
     return JsonResponse(json_object, safe=False)
 
 #LOCAL FUNCTIONS:
@@ -191,3 +240,16 @@ def parse_dms(dms):
     parts = re.split('[^\d\w]+', dms)
     lat = dms2dd(parts[0], parts[1], parts[2], parts[3])
     return (lat)
+
+def	status(status):
+    if	status	==	"A"	or	status	==	"B"	or	status	==	"C"	or	status	==	"E"	or	status	==	"G"	or	status	==	"H":
+        status	=	"red"
+        return	status
+    elif	status	==	"4"	or	status	==	"1"	or	status	==	"5"	or	status	==	"0":
+        status	=	"green"
+        return	status
+    elif	status	==	"^"	or	status	==	"<"	or	status	==	":":
+        status	=	"yellow"
+        return	status
+    else:
+        print("Error	parsing	status,	API	returned	status:	",status)

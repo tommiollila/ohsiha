@@ -23,6 +23,7 @@ class TrafficLightDetectors(models.Model):
     congestion_count = models.IntegerField(blank=True, null=True, default=None)
     queue_length = models.IntegerField(blank=True, null=True, default=None)
     vehicle_count = models.IntegerField(blank=True, null=True, default=None)
+    status = models.CharField(max_length=5, default='')
     wait_time_max = models.FloatField(blank=True, null=True, default=None)
     wait_time_avg = models.FloatField(blank=True, null=True, default=None)
     n_coordinate = models.FloatField(blank=True, null=True, default=None)

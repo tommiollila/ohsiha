@@ -20,6 +20,10 @@
  <input type="submit" class="button" id="button3" value="Lataa sijainnit" name="locationsBtn">
 </form>
 
+<form action="/base/" method="get" id="status">
+ <input type="submit" class="button" id="button3" value="Lataa statukset" name="statusBtn">
+</form>
+
 <form action="/base/" method="post" id="empty">
   {% csrf_token %}
  <input type="submit" class="button" id="button4" value="Tyhjennä taulu" name="mybtn">
@@ -34,6 +38,7 @@
       <th>Traffic Amount</th>
       <th>X-point</th>
       <th>Y-point</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
@@ -44,6 +49,7 @@
       <td>{{o.traffic_amount}}</td>
       <td>{{o.e_coordinate}}</td>
       <td>{{o.n_coordinate}}</td>
+      <td>{{o.status}}</td>
     </tr>
     {%endfor%}
   </tbody>

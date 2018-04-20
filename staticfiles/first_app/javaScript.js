@@ -1,7 +1,7 @@
 function initMap() {
 
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
+    zoom: 17,
     center: {lat: 61.49911, lng: 23.78712}
   });
 
@@ -15,11 +15,11 @@ function initMap() {
           var first_test = {lat: loc.lat, lng: loc.lon};
           var bubble = new google.maps.Circle({
             center: first_test,
-            radius: 25,
-            strokeColor: "#0000FF",
+            radius: 8,
+            strokeColor: loc.stat,
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: "#0000FF",
+            fillColor: loc.stat,
             fillOpacity: 0.4
           });
           bubble.setMap(map);
