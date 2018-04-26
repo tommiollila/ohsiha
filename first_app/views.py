@@ -39,8 +39,6 @@ def base(request):
 
     if(request.GET.get('statusBtn')):
 
-        print("Ladataan statukset")
-
         objects = TrafficLightDetectors.objects.all()
         args = {'objects': objects}
 
@@ -63,13 +61,11 @@ def base(request):
                 i = 0
                 while i < length:
                     if j_obj["signalGroup"][i]["name"] == upper_letter:
-                        #right_signal_group = j_obj["signalGroup"][i]
                         j = i
                         break
                     i = i + 1
                 object.status = j_obj["signalGroup"][j]["status"]
                 object.save()
-                #return render(request, "first_app/home.html", args)
 
             else:
                 pass

@@ -26,6 +26,4 @@ function initMap() {
         }
       }
     });
-
-
   }
