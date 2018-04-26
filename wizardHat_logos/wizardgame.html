@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Game</title>
+  <meta charset="utf-8"/>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script>
+  /* global $, alert */
+
+  $(document).ready( function() {
+    "use strict";
+
+    // These variable track the state of this "game"
+    var points = 0;
+    var amountOfClicks = 0;
+
+    var houses = ['Gryffindor', 'Hufflepuff', 'Slytherin', 'Ravenclaw'];
+    var yourHouse = '';
+    var houseImages = {
+      'Gryffindor': "https://raw.githubusercontent.com/tommiollila/ohsiha/master/wizardHat_logos/gryffindor.png",
+      'Hufflepuff': "https://raw.githubusercontent.com/tommiollila/ohsiha/master/wizardHat_logos/hufflepuff.png",
+      'Slytherin': "https://raw.githubusercontent.com/tommiollila/ohsiha/master/wizardHat_logos/slytherin.png",
+      'Ravenclaw': "https://raw.githubusercontent.com/tommiollila/ohsiha/master/wizardHat_logos/ravenclaw.png"
+    };
+    // Simulates "game over" when a score would be sent
+    $("#submit_score").click( function () {
+      var msg = {
+        "messageType": "SCORE",
+        "score": parseFloat($("#score").text())
+      };
+      window.parent.postMessage(msg, "*");
+    });
+
+    // Sends this game's state to the service.
+    // The format of the game state is decided
+    // by the game
+    $("#save").click( function () {
+      var msg = {
+        "messageType": "SAVE",
+        "gameState": {
+          "amountOfClicks": amountOfClicks,
+          "yourHouse": yourHouse,
+          "score": parseFloat($("#score").text())
+        }
+      };
+      window.parent.postMessage(msg, "*");
+    });
+
+    // Sends a request to the service for a
+    // state to be sent, if there is one.
+    $("#load").click( function () {
+      var msg = {
+        "messageType": "LOAD_REQUEST",
+      };
+      window.parent.postMessage(msg, "*");
+    });
+
+    // Listen incoming messages, if the messageType
+    // is LOAD then the game state will be loaded.
+    // Note that no checking is done, whether the
+    // gameState in the incoming message contains
+    // correct information.
+    //
+    // Also handles any errors that the service
+    // wants to send (displays them as an alert).
+    window.addEventListener("message", function(evt) {
+      console.log(evt.data);
+      if(evt.data.messageType === "LOAD") {
+        yourHouse = evt.data.gameState.yourHouse;
+        points = evt.data.gameState.score;
+        amountOfClicks = evt.data.gameState.amountOfClicks;
+        $("#score").text(points);
+        updateItems();
+      } else if (evt.data.messageType === "ERROR") {
+        alert(evt.data.info);
+      }
+    });
+
+
+    $("#put_hat").click( function () {
+      if (amountOfClicks === 5) {
+
+      }
+      else {
+        var randomValue = Math.floor(Math.random() * 4);
+        yourHouse = houses[randomValue];
+
+        amountOfClicks += 1;
+        if (yourHouse === 'Gryffindor') {
+          points += 10;
+        }
+        if (yourHouse === 'Slytherin') {
+          points += 60;
+        }
+        if (yourHouse === 'Hufflepuff') {
+          points += 100;
+        }
+        if (yourHouse === 'Ravenclaw') {
+          points += 40;
+        }
+        updateItems();
+      }
+
+    });
+
+    function updateItems() {
+      $("#your_house").text(yourHouse);
+      $("#score").text(points);
+      $("#houseImage").attr("src", houseImages[yourHouse]);
+      $("#houseImage").attr("style", "display: block;");
+    }
+
+    // Request the service to set the resolution of the
+    // iframe correspondingly
+    var message =  {
+      messageType: "SETTING",
+      options: {
+      	"width": 600, //Integer
+        "height": 600 //Integer
+        }
+    };
+    window.parent.postMessage(message, "*");
+
+  });
+  </script>
+</head>
+<body>
+
+  <h3>Sorting Hat</h3>
+
+  <div>
+    <img src=https://raw.githubusercontent.com/tommiollila/ohsiha/master/wizardHat_logos/sortinghat.png />
+  </div>
+
+  <div>
+    <b>Rules:</b>
+    <ul>
+       <li>You have 5 tries to put the hat on.</li>
+       <li>Each try will give you points depending on your house.</li>
+    </ul>
+  </div>
+
+  <button id="put_hat">Put hat on</button>
+
+  <div>
+    <p id="your_house"></p>
+    <span><img
+      id=houseImage
+      src=""
+      width="100"
+      height="100"
+      style="display: none;">
+    </img></span>
+  </div>
+
+  <div><span  id="score">0</span> Points</div>
+
+  <button id="submit_score">Submit score</button><br>
+
+  <button id="save">Save</button>
+  <button id="load">Load</button>
+</body>
+</html>
